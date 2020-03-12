@@ -5,6 +5,7 @@ workspace "projectname"
   location ".build/projects"
   targetdir ".build/bin/%{cfg.buildcfg}"
   debugdir "bin"
+  kind "StaticLib"
   language "C++"
   warnings "Off"
   architecture "x64"
@@ -25,6 +26,14 @@ workspace "projectname"
     symbols "Off"
     optimize "Size"
 
+project "_root"
+  kind "None"
+  files { "**" }
+  removefiles { ".git/**" }
+  removefiles { ".build/**" }
+  removefiles { "externals/**" }
+  removefiles { "source/**.cpp", "source/**.h" }
+
 project "app.projectname"
   kind "ConsoleApp"
   language "C++"
@@ -39,24 +48,21 @@ project "app.projectname"
   links {  "lib.singleheaders", "lib.eastl", "lib.eaassert", "lib.eastdc" }
 
 project "lib.singleheaders"
-  kind "StaticLib"
   includedirs { "externals/include" }
   files { "externals/include/**.h" }
-  files { "source/lib.singleheaders/impl.cpp" }
+  files { "source/lib.singleheaders/**.cpp" }
 
 project "lib.eabase"
   kind "None"
   files { "externals/EABase/include/Common/**.h" }
 
 project "lib.eaassert"
-  kind "StaticLib"
   includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
   files { "externals/EAAssert/include/**.h" }
   files { "externals/EAAssert/source/**.cpp" }
 
 project "lib.eastl"
-  kind "StaticLib"
   includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
   includedirs { "externals/EASTL/include" }
@@ -65,7 +71,6 @@ project "lib.eastl"
   links { "lib.eaassert" }
 
 project "lib.eathread"
-  kind "StaticLib"
   includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
   includedirs { "externals/EASTL/include" }
@@ -76,7 +81,6 @@ project "lib.eathread"
   links { "lib.eastl", "lib.eaassert" }
 
 project "lib.eastdc"
-  kind "StaticLib"
   includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
   includedirs { "externals/EASTL/include" }
