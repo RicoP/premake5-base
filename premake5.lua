@@ -15,7 +15,7 @@ workspace "projectname"
   }
 
   filter "configurations:Debug"
-    defines { "DEBUG" }
+    defines { "DEBUG", "EA_DEBUG" }
     symbols "Full"
     optimize "Off"
     targetsuffix "-d"
