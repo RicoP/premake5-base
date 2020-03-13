@@ -1,3 +1,5 @@
+local is_visual_studio = _ACTION:find("^vs") ~= nil 
+
 workspace "projectname"
   characterset ("MBCS")
   configurations { "Debug", "Release" }
@@ -11,9 +13,11 @@ workspace "projectname"
   architecture "x64"
   cppdialect "C++17"
 
-  linkoptions {
-    "/ignore:4006", -- F already defined in X.lib; second definition ignored
-  }
+  if is_visual_studio then
+    linkoptions {
+      "/ignore:4006", -- F already defined in X.lib; second definition ignored
+    }
+  end
 
   filter "configurations:Debug"
     defines { "DEBUG", "EA_DEBUG" }
