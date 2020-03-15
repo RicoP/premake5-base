@@ -49,7 +49,7 @@ project "app.projectname"
   includedirs { "externals/EAThread/include" }
   includedirs { "externals/EaStdC/include" }
   files { "source/app.projectname/**.h", "source/app.projectname/**.c", "source/app.projectname/**.cpp" }
-  links {  "lib.singleheaders", "lib.eastl", "lib.eaassert", "lib.eastdc" }
+  links {  "lib.singleheaders", "lib.eastl", "lib.eaassert", "lib.eastdc", "lib.eathread" }
 
 project "lib.singleheaders"
   includedirs { "externals/include" }
