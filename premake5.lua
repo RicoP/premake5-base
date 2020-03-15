@@ -80,8 +80,7 @@ project "lib.eathread"
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
   files { "externals/EAThread/include/**.h" }
-  files { "externals/EAThread/source/*.cpp" }
-  files { "externals/EAThread/source/pc/*.cpp" }
+  files { "externals/EAThread/source/*.cpp" } -- only take root level cpp files on purpose
   links { "lib.eastl", "lib.eaassert" }
 
 project "lib.eastdc"
