@@ -1,9 +1,12 @@
-local is_visual_studio = _ACTION:find("^vs") ~= nil 
+local name = "projectname"
 
-workspace "projectname"
+local is_visual_studio = _ACTION:find("^vs") ~= nil 
+local project_name = "app." .. name
+
+workspace(name)
   characterset ("MBCS")
   configurations { "Debug", "Release" }
-  startproject "app.projectname"
+  startproject (project_name)
   location ".build/projects"
   targetdir ".build/bin/%{cfg.buildcfg}"
   debugdir "bin"
@@ -18,6 +21,8 @@ workspace "projectname"
       "/ignore:4006", -- F already defined in X.lib; second definition ignored
     }
   end
+
+  defines { "EA_SSE=4", "EA_SSE4_1=1", "EA_SSE4_2=1" }
 
   filter "configurations:Debug"
     defines { "DEBUG", "EA_DEBUG" }
@@ -38,7 +43,7 @@ project "_root"
   removefiles { "externals/**" }
   removefiles { "source/**.cpp", "source/**.h" }
 
-project "app.projectname"
+project (project_name)
   kind "ConsoleApp"
   language "C++"
   warnings "Extra"
@@ -48,7 +53,7 @@ project "app.projectname"
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
   includedirs { "externals/EaStdC/include" }
-  files { "source/app.projectname/**.h", "source/app.projectname/**.c", "source/app.projectname/**.cpp" }
+  files { "source/" .. project_name .. "/**.h", "source/" .. project_name .. "/**.c", "source/" .. project_name .. "/**.cpp" }
   links {  "lib.singleheaders", "lib.eastl", "lib.eaassert", "lib.eastdc", "lib.eathread" }
 
 project "lib.singleheaders"
