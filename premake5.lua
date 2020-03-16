@@ -22,7 +22,7 @@ workspace(name)
     }
   end
 
-  defines { "EA_SSE=4", "EA_SSE4_1=1", "EA_SSE4_2=1" }
+  defines { "EA_SSE=4", "EA_SSE4_1=1", "EA_SSE4_2=1", "SOKOL_NO_ENTRY" }
 
   filter "configurations:Debug"
     defines { "DEBUG", "EA_DEBUG" }
@@ -59,6 +59,7 @@ project (project_name)
 project "lib.singleheaders"
   includedirs { "externals/include" }
   files { "externals/include/**.h" }
+  files { "source/lib.singleheaders/**.c" }
   files { "source/lib.singleheaders/**.cpp" }
 
 project "lib.eabase"
