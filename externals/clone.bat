@@ -6,3 +6,4 @@ git clone --depth 1 git@github.com:electronicarts/EABase.git
 git clone --depth 1 git@github.com:electronicarts/EAStdC.git
 git clone --depth 1 git@github.com:electronicarts/EASTL.git
 git clone --depth 1 git@github.com:electronicarts/EAThread.git
+git clone --depth 1 git@github.com:RicoP/ros.git
