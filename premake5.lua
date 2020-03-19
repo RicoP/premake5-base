@@ -22,7 +22,7 @@ workspace(name)
     }
   end
 
-  defines { "EA_SSE=4", "EA_SSE4_1=1", "EA_SSE4_2=1", "SOKOL_NO_ENTRY" }
+  defines { "EA_SSE=4", "SOKOL_NO_ENTRY" }
 
   filter "configurations:Debug"
     defines { "DEBUG", "EA_DEBUG" }
@@ -41,7 +41,7 @@ project "_root"
   removefiles { ".git/**" }
   removefiles { ".build/**" }
   removefiles { "externals/**" }
-  removefiles { "source/**.cpp", "source/**.h" }
+  removefiles { "**.cpp", "**.h", "**.c" }
 
 project (project_name)
   kind "ConsoleApp"
@@ -53,6 +53,7 @@ project (project_name)
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
   includedirs { "externals/EaStdC/include" }
+  includedirs { "externals/ros/include" }
   files { "source/" .. project_name .. "/**.h", "source/" .. project_name .. "/**.c", "source/" .. project_name .. "/**.cpp" }
   links {  "lib.singleheaders", "lib.eastl", "lib.eaassert", "lib.eastdc", "lib.eathread" }
 
