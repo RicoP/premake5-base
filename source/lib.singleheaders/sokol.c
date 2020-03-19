@@ -1,6 +1,5 @@
 #define SOKOL_IMPL
-#define SOKOL_D3D11
-#define SOKOL_D3D11_SHADER_COMPILER
+#define SOKOL_GLCORE33
 
 #if defined(_WIN32)
 #include <Windows.h>
