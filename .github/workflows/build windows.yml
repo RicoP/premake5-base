@@ -1,0 +1,22 @@
+name: build windows
+
+on: [push]
+jobs:
+  build:
+    runs-on: [windows-latest]
+    
+    steps:
+    - uses: actions/checkout@v2
+      #https://github.com/marketplace/actions/setup-msbuild-exe
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: externals
+      working-directory: externals
+      run: ./clone.bat
+    - name: build premake5
+      run: .\tools\premake\windows\premake5.exe vs2019
+    - name: compile
+      run: msbuild .build\projects\projectname.sln
+#    - name: test
+#      working-directory: scripts
+#      run: ./windows_test.bat
