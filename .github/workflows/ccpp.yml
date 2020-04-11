@@ -1,0 +1,21 @@
+name: cppci
+
+on: [push]
+jobs:
+  build:
+    runs-on: [windows-latest]
+    
+    steps:
+    - uses: actions/checkout@v2
+      #https://github.com/marketplace/actions/setup-msbuild-exe
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+    - name: build      
+      working-directory: scripts
+      run: ./windows_make.bat
+    - name: compile
+      working-directory: scripts
+      run: ./windows_compile.bat
+#    - name: test
+#      working-directory: scripts
+#      run: ./windows_test.bat
