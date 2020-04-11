@@ -11,14 +11,12 @@ jobs:
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: externals
-      working-directory: scripts
-      run: clone_externals.bat
-    - name: build
-      working-directory: scripts
+      working-directory: externals
+      run: clone.bat
+    - name: build premake5
       run: .\tools\premake\windows\premake5.exe vs2019
     - name: compile
-      working-directory: scripts
-      run: ./windows_compile.bat
+      run: msbuild .build\projects\projectname.sln
 #    - name: test
 #      working-directory: scripts
 #      run: ./windows_test.bat
