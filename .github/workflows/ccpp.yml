@@ -10,9 +10,12 @@ jobs:
       #https://github.com/marketplace/actions/setup-msbuild-exe
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
-    - name: build      
+    - name: externals
       working-directory: scripts
-      run: ./windows_make.bat
+      run: clone_externals.bat
+    - name: build
+      working-directory: scripts
+      run: .\tools\premake\windows\premake5.exe vs2019
     - name: compile
       working-directory: scripts
       run: ./windows_compile.bat
