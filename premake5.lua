@@ -47,15 +47,23 @@ project (project_name)
   kind "ConsoleApp"
   language "C++"
   warnings "Extra"
-  includedirs { "externals/include" }
-  includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
+  includedirs { "externals/EABASE/include/Common" }
+  includedirs { "externals/EaStdC/include" }
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
-  includedirs { "externals/EaStdC/include" }
+  includedirs { "externals/include" }
+  includedirs { "externals/minifb/include" }
   includedirs { "externals/ros/include" }
   files { "source/" .. project_name .. "/**.h", "source/" .. project_name .. "/**.c", "source/" .. project_name .. "/**.cpp" }
-  links {  "lib.singleheaders", "lib.eastl", "lib.eaassert", "lib.eastdc", "lib.eathread" }
+  links {
+    "lib.eaassert",
+    "lib.eastdc",
+    "lib.eastl",
+    "lib.eathread",
+    "lib.minifb",
+    "lib.singleheaders"
+  }
 
 project "lib.singleheaders"
   includedirs { "externals/include" }
@@ -104,3 +112,13 @@ project "lib.eastdc"
   files { "externals/EAStdC/include/**.h" }
   files { "externals/EAStdC/source/**.cpp" }
   links { "lib.eastl", "lib.eaassert" }
+
+project "lib.minifb"
+  includedirs { "externals/minifb/include/" }
+  includedirs { "externals/minifb/src/" }
+  files { "externals/minifb/include/**.h" }
+  files { "externals/minifb/src/*.h" }
+  files { "externals/minifb/src/*.c" }
+  files { "externals/minifb/src/*.cpp" }
+  files { "externals/minifb/src/windows/*.h" }
+  files { "externals/minifb/src/windows/*.c" }
