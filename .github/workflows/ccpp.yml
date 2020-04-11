@@ -12,7 +12,7 @@ jobs:
       uses: warrenbuckley/Setup-MSBuild@v1
     - name: externals
       working-directory: externals
-      run: clone.bat
+      run: ./clone.bat
     - name: build premake5
       run: .\tools\premake\windows\premake5.exe vs2019
     - name: compile
