@@ -63,6 +63,11 @@ project "lib.singleheaders"
   files { "source/lib.singleheaders/**.c" }
   files { "source/lib.singleheaders/**.cpp" }
 
+project "lib.ros"
+  kind "None"
+  files { "externals/ros/include/**.h" }
+  files { "externals/ros/include/**.cpp" }
+
 project "lib.eabase"
   kind "None"
   files { "externals/EABase/include/Common/**.h" }
