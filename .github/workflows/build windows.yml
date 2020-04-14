@@ -16,7 +16,7 @@ jobs:
     - name: build premake5
       run: .\tools\premake\windows\premake5.exe vs2019
     - name: compile
-      run: msbuild .build\projects\projectname.sln
+      run: msbuild .build\projects\__projectname.sln
 #    - name: test
 #      working-directory: scripts
 #      run: ./windows_test.bat
