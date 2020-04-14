@@ -71,7 +71,7 @@ project "app.main"
   includedirs { "externals/include" }
   includedirs { "externals/minifb/include" }
   includedirs { "externals/ros/include" }
-  files { "source/app.main/**.h", "source/app.main/**.c", "source/app.main/**.cpp" }
+  files { "source/app.main/**" }
   links {
     "lib.eaassert",
     "lib.eastdc",
@@ -84,30 +84,28 @@ project "app.main"
 project "lib.singleheaders"
   includedirs { "externals/include" }
   files { "externals/include/**.h" }
-  files { "source/lib.singleheaders/**.c" }
-  files { "source/lib.singleheaders/**.cpp" }
+  files { "source/lib.singleheaders/**" }
 
 project "lib.ros"
   kind "None"
-  files { "externals/ros/include/**.h" }
-  files { "externals/ros/include/**.cpp" }
+  files { "externals/ros/include/**" }
 
 project "lib.eabase"
   kind "None"
-  files { "externals/EABase/include/Common/**.h" }
+  files { "externals/EABase/include/Common/**" }
 
 project "lib.eaassert"
   includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
   files { "externals/EAAssert/include/**.h" }
-  files { "externals/EAAssert/source/**.cpp" }
+  files { "externals/EAAssert/source/**" }
 
 project "lib.eastl"
   includedirs { "externals/EABASE/include/Common" }
   includedirs { "externals/EAAssert/include/" }
   includedirs { "externals/EASTL/include" }
   files { "externals/EASTL/include/**.h" }
-  files { "externals/EASTL/source/**.cpp" }
+  files { "externals/EASTL/source/**" }
   links { "lib.eaassert" }
 
 project "lib.eathread"
@@ -116,7 +114,7 @@ project "lib.eathread"
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
   files { "externals/EAThread/include/**.h" }
-  files { "externals/EAThread/source/*.cpp" } -- only take root level cpp files on purpose
+  files { "externals/EAThread/source/*" } -- only take root level cpp files on purpose
   links { "lib.eastl", "lib.eaassert" }
 
 project "lib.eastdc"
@@ -126,15 +124,13 @@ project "lib.eastdc"
   includedirs { "externals/EAThread/include" }
   includedirs { "externals/EaStdC/include" }
   files { "externals/EAStdC/include/**.h" }
-  files { "externals/EAStdC/source/**.cpp" }
+  files { "externals/EAStdC/source/**" }
   links { "lib.eastl", "lib.eaassert" }
 
 project "lib.minifb"
   includedirs { "externals/minifb/include/" }
   includedirs { "externals/minifb/src/" }
   files { "externals/minifb/include/**.h" }
-  files { "externals/minifb/src/*.h" }
-  files { "externals/minifb/src/*.c" }
-  files { "externals/minifb/src/*.cpp" }
+  files { "externals/minifb/src/*" }
   files { "externals/minifb/src/windows/*.h" }
   files { "externals/minifb/src/windows/*.c" }
