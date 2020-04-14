@@ -1,12 +1,11 @@
-local name = "projectname"
+local project_name = "projectname"
 
 local is_visual_studio = _ACTION:find("^vs") ~= nil 
-local project_name = "app." .. name
 
-workspace(name)
+workspace ("__" .. project_name)
   characterset ("MBCS")
-  configurations { "Debug", "Release" }
-  startproject (project_name)
+  configurations { "Debug", "DebugFast", "Release" }
+  startproject "app.entry"
   location ".build/projects"
   targetdir ".build/bin/%{cfg.buildcfg}"
   debugdir "bin"
@@ -30,6 +29,12 @@ workspace(name)
     optimize "Off"
     targetsuffix "-d"
 
+  filter "configurations:DebugFast"
+    defines { "DEBUG", "EA_DEBUG" }
+    symbols "Full"
+    optimize "Size"
+    targetsuffix "-df"
+
   filter "configurations:Release"
     defines { "RELEASE", "NDEBUG" }
     symbols "Off"
@@ -43,9 +48,20 @@ project "_root"
   removefiles { "externals/**" }
   removefiles { "**.cpp", "**.h", "**.c" }
 
-project (project_name)
-  kind "ConsoleApp"
-  language "C++"
+project "app.entry"
+  warnings "Extra"
+  targetname (project_name)
+  links { "app.main" }
+  files { "resource/*" }
+  files { "source/app.entry/**" }
+  filter "configurations:Debug"
+    kind "ConsoleApp"
+  filter "configurations:DebugFast"
+    kind "ConsoleApp"
+  filter "configurations:Release"
+    kind "WindowedApp"
+
+project "app.main"
   warnings "Extra"
   includedirs { "externals/EAAssert/include/" }
   includedirs { "externals/EABASE/include/Common" }
@@ -55,7 +71,7 @@ project (project_name)
   includedirs { "externals/include" }
   includedirs { "externals/minifb/include" }
   includedirs { "externals/ros/include" }
-  files { "source/" .. project_name .. "/**.h", "source/" .. project_name .. "/**.c", "source/" .. project_name .. "/**.cpp" }
+  files { "source/app.main/**.h", "source/app.main/**.c", "source/app.main/**.cpp" }
   links {
     "lib.eaassert",
     "lib.eastdc",

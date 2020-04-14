@@ -1,6 +1,10 @@
 #include <sokol/sokol_app.h>
 #include <sokol/sokol_gfx.h>
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 static struct { sg_pass_action pass_action; } state;
 
 sg_pass_action* get_pass_action(void) { return &state.pass_action; }
@@ -16,6 +20,15 @@ void init(void) {
                       .d3d11_depth_stencil_view_cb = sapp_d3d11_get_depth_stencil_view});
   state.pass_action = (sg_pass_action){.colors[0] = {.action = SG_ACTION_CLEAR, .val = {1.0f, 0.0f, 0.0f, 1.0f}}};
   //__dbgui_setup(1);
+
+  
+# ifdef _WIN32
+  const HWND handle = (HWND)sapp_win32_get_hwnd();
+  const HICON icon = LoadIconA(GetModuleHandleW(NULL), "MAINICON");
+
+  SendMessage(handle, WM_SETICON, ICON_SMALL, (LPARAM)icon);
+  SendMessage(handle, WM_SETICON, ICON_BIG, (LPARAM)icon);
+# endif
 }
 
 void cleanup(void) {

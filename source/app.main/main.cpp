@@ -21,7 +21,7 @@ void frame() {
   sg_commit();
 }
 
-int main(int argc, char* argv[]) {
+extern "C" int appmain(int argc, char* argv[]) {
   for (auto i : ros::Range(3, 10)) {
     EA::StdC::Printf("%d \n", i);
   }
