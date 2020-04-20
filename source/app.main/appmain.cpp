@@ -1,17 +1,22 @@
-#define SOKOL_GLCORE33
-#define SOKOL_IMGUI_IMPL
-
 #include <ImGuiFileBrowser/FileBrowser/ImGuiFileBrowser.h>
 #include <imgui/imgui.h>
 #include <ros/range.h>
 #include <ros/refptr.h>
-#include <sokol/sokol_app.h>
-#include <sokol/sokol_gfx.h>
-#include <sokol/sokol_time.h>
-#include <sokol/util/sokol_imgui.h>
 
 #include <cstdlib>
 #include <iostream>
+
+#define SOKOL_GLCORE33
+#define SOKOL_IMGUI_IMPL
+#define SOKOL_GL_IMPL
+
+#include <sokol/sokol_app.h>
+#include <sokol/sokol_gfx.h>
+#include <sokol/sokol_time.h>
+#include <sokol/util/sokol_gl.h>
+#include <sokol/util/sokol_imgui.h>
+
+#define SAMPLE_COUNT (4)
 
 #ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN
@@ -28,6 +33,12 @@ void setWindowIcon() {
 #else
 void setWindowIcon() {}
 #endif
+
+static struct {
+  // sg_pass_action pass_action;
+  // sg_image img;
+  sgl_pipeline pip_3d;
+} state;
 
 static uint64_t last_time = 0;
 static bool show_test_window = false;
@@ -123,6 +134,90 @@ void init(void) {
   pass_action.colors[0].val[1] = 0.5f;
   pass_action.colors[0].val[2] = 0.7f;
   pass_action.colors[0].val[3] = 1.0f;
+
+  sgl_desc_t sgl;
+  std::memset(&sgl, 0, sizeof(sgl_desc_t));
+  sgl.sample_count = SAMPLE_COUNT;
+
+  sgl_setup(&sgl);
+
+  /* create a pipeline object for 3d rendering, with less-equal
+   depth-test and cull-face enabled, not that we don't provide
+   a shader, vertex-layout, pixel formats and sample count here,
+   these are all filled in by sokol-gl
+  */
+
+  sg_pipeline_desc pip;
+  std::memset(&pip, 0, sizeof(sg_pipeline_desc));
+  pip.depth_stencil.depth_write_enabled = true;
+  pip.depth_stencil.depth_compare_func = SG_COMPAREFUNC_LESS_EQUAL;
+  pip.rasterizer.cull_mode = SG_CULLMODE_BACK;
+
+  state.pip_3d = sgl_make_pipeline(&pip);
+}
+
+void game_render() {
+  static float rot[2] = {0.0f, 0.0f};
+  rot[0] += 1.0f;
+  rot[1] += 2.0f;
+
+  sgl_defaults();
+  sgl_load_pipeline(state.pip_3d);
+
+  sgl_matrix_mode_projection();
+  sgl_perspective(sgl_rad(45.0f), 1.0f, 0.1f, 100.0f);
+
+  sgl_matrix_mode_modelview();
+  sgl_translate(0.0f, 0.0f, -12.0f);
+  sgl_rotate(sgl_rad(rot[0]), 1.0f, 0.0f, 0.0f);
+  sgl_rotate(sgl_rad(rot[1]), 0.0f, 1.0f, 0.0f);
+
+  sgl_begin_quads();
+  {
+    {
+      sgl_c3f(1.0f, 0.0f, 0.0f);
+      sgl_v3f_t2f(-1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
+      sgl_v3f_t2f(1.0f, 1.0f, -1.0f, 1.0f, 1.0f);
+      sgl_v3f_t2f(1.0f, -1.0f, -1.0f, 1.0f, -1.0f);
+      sgl_v3f_t2f(-1.0f, -1.0f, -1.0f, -1.0f, -1.0f);
+    }
+    {
+      sgl_c3f(0.0f, 1.0f, 0.0f);
+      sgl_v3f_t2f(-1.0, -1.0, 1.0, -1.0f, 1.0f);
+      sgl_v3f_t2f(1.0, -1.0, 1.0, 1.0f, 1.0f);
+      sgl_v3f_t2f(1.0, 1.0, 1.0, 1.0f, -1.0f);
+      sgl_v3f_t2f(-1.0, 1.0, 1.0, -1.0f, -1.0f);
+    }
+    {
+      sgl_c3f(0.0f, 0.0f, 1.0f);
+      sgl_v3f_t2f(-1.0, -1.0, 1.0, -1.0f, 1.0f);
+      sgl_v3f_t2f(-1.0, 1.0, 1.0, 1.0f, 1.0f);
+      sgl_v3f_t2f(-1.0, 1.0, -1.0, 1.0f, -1.0f);
+      sgl_v3f_t2f(-1.0, -1.0, -1.0, -1.0f, -1.0f);
+    }
+    {
+      sgl_c3f(1.0f, 0.5f, 0.0f);
+      sgl_v3f_t2f(1.0, -1.0, 1.0, -1.0f, 1.0f);
+      sgl_v3f_t2f(1.0, -1.0, -1.0, 1.0f, 1.0f);
+      sgl_v3f_t2f(1.0, 1.0, -1.0, 1.0f, -1.0f);
+      sgl_v3f_t2f(1.0, 1.0, 1.0, -1.0f, -1.0f);
+    }
+    {
+      sgl_c3f(0.0f, 0.5f, 1.0f);
+      sgl_v3f_t2f(1.0, -1.0, -1.0, -1.0f, 1.0f);
+      sgl_v3f_t2f(1.0, -1.0, 1.0, 1.0f, 1.0f);
+      sgl_v3f_t2f(-1.0, -1.0, 1.0, 1.0f, -1.0f);
+      sgl_v3f_t2f(-1.0, -1.0, -1.0, -1.0f, -1.0f);
+    }
+    {
+      sgl_c3f(1.0f, 0.0f, 0.5f);
+      sgl_v3f_t2f(-1.0, 1.0, -1.0, -1.0f, 1.0f);
+      sgl_v3f_t2f(-1.0, 1.0, 1.0, 1.0f, 1.0f);
+      sgl_v3f_t2f(1.0, 1.0, 1.0, 1.0f, -1.0f);
+      sgl_v3f_t2f(1.0, 1.0, -1.0, -1.0f, -1.0f);
+    }
+  }
+  sgl_end();
 }
 
 void frame(void) {
@@ -142,7 +237,10 @@ void frame(void) {
 
   // the sokol_gfx draw pass
   sg_begin_default_pass(&pass_action, width, height);
+  game_render();
+  sgl_draw();
   simgui_render();
+
   sg_end_pass();
   sg_commit();
 }
@@ -165,6 +263,7 @@ sapp_desc sokol_imgui_desc() {
   desc.gl_force_gles2 = true;
   desc.window_title = "premake5-test";
   desc.ios_keyboard_resizes_canvas = false;
+  desc.sample_count = SAMPLE_COUNT;
   return desc;
 }
 

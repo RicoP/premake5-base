@@ -14,6 +14,7 @@ workspace ("__" .. project_name)
   warnings "Off"
   architecture "x64"
   cppdialect "C++17"
+  defines { "ROS_USE_EA" }
 
   if is_visual_studio then
     linkoptions {
@@ -69,7 +70,7 @@ project "app.main"
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
   includedirs { "externals/include" }
-  includedirs { "externals/include/imgui" }
+  includedirs { "externals/include/imgui" } -- todo: remove
   includedirs { "externals/include/ImGuiFileBrowser/FileBrowser" }
   includedirs { "externals/ros/include" }
   files { "source/app.main/**" }
@@ -80,7 +81,6 @@ project "app.main"
     "lib.eathread",
     "lib.imgui",
     "lib.singleheaders"
-
   }
 
 project "lib.singleheaders"
