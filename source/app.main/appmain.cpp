@@ -107,7 +107,7 @@ void showMainMenu() {
   }
 }
 
-void init(void) {
+void init() {
   setWindowIcon();
 
   // setup sokol-gfx, sokol-time and sokol-imgui
@@ -157,6 +157,7 @@ void init(void) {
 }
 
 void game_render() {
+  float aspect = sapp_width() * 1.0f / sapp_height();
   static float rot[2] = {0.0f, 0.0f};
   rot[0] += 1.0f;
   rot[1] += 2.0f;
@@ -165,7 +166,7 @@ void game_render() {
   sgl_load_pipeline(state.pip_3d);
 
   sgl_matrix_mode_projection();
-  sgl_perspective(sgl_rad(45.0f), 1.0f, 0.1f, 100.0f);
+  sgl_perspective(sgl_rad(45.0f), aspect, 0.1f, 100.0f);
 
   sgl_matrix_mode_modelview();
   sgl_translate(0.0f, 0.0f, -12.0f);
@@ -220,7 +221,7 @@ void game_render() {
   sgl_end();
 }
 
-void frame(void) {
+void frame() {
   const int width = sapp_width();
   const int height = sapp_height();
   const double delta_time = stm_sec(stm_laptime(&last_time));
@@ -245,7 +246,7 @@ void frame(void) {
   sg_commit();
 }
 
-void cleanup(void) {
+void cleanup() {
   simgui_shutdown();
   sg_shutdown();
 }
