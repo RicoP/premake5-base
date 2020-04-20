@@ -1,5 +1,15 @@
-﻿Language                                  : Cpp
-BasedOnStyle                              : Google 
-Standard                                  : Auto
-ColumnLimit                               : '120'
-AllowShortIfStatementsOnASingleLine       : false
+Language                                       : Cpp
+BasedOnStyle                                   : Google
+
+AllowAllParametersOfDeclarationOnNextLine      : false
+AllowShortCaseLabelsOnASingleLine              : true
+AllowShortFunctionsOnASingleLine               : All
+AllowShortIfStatementsOnASingleLine            : Always
+BinPackParameters                              : false
+ColumnLimit                                    : '140'
+ConstructorInitializerAllOnOneLineOrOnePerLine : true
+IndentPPDirectives                             : AfterHash
+IndentWidth                                    : '2'
+NamespaceIndentation                           : Inner
+SortIncludes                                   : true
+Standard                                       : Cpp11

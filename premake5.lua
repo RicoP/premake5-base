@@ -69,7 +69,8 @@ project "app.main"
   includedirs { "externals/EASTL/include" }
   includedirs { "externals/EAThread/include" }
   includedirs { "externals/include" }
-  includedirs { "externals/minifb/include" }
+  includedirs { "externals/include/imgui" }
+  includedirs { "externals/include/ImGuiFileBrowser/FileBrowser" }
   includedirs { "externals/ros/include" }
   files { "source/app.main/**" }
   links {
@@ -77,14 +78,22 @@ project "app.main"
     "lib.eastdc",
     "lib.eastl",
     "lib.eathread",
-    "lib.minifb",
+    "lib.imgui",
     "lib.singleheaders"
+
   }
 
 project "lib.singleheaders"
   includedirs { "externals/include" }
   files { "externals/include/**.h" }
   files { "source/lib.singleheaders/**" }
+  -- ImGuiFileBrowser
+  defines     { "ImGuiSelectableFlags_PressedOnClick=0" }
+  includedirs { "externals/include/imgui" }
+  includedirs { "externals/include/ImGuiFileBrowser/FileBrowser" }
+  files       { "externals/include/ImGuiFileBrowser/FileBrowser/**.h" }
+  files       { "externals/include/ImGuiFileBrowser/FileBrowser/**.cpp" }
+  removefiles { "externals/include/ImGuiFileBrowser/FileBrowser/imgui_demo.cpp" }
 
 project "lib.ros"
   kind "None"
@@ -127,10 +136,7 @@ project "lib.eastdc"
   files { "externals/EAStdC/source/**" }
   links { "lib.eastl", "lib.eaassert" }
 
-project "lib.minifb"
-  includedirs { "externals/minifb/include/" }
-  includedirs { "externals/minifb/src/" }
-  files { "externals/minifb/include/**.h" }
-  files { "externals/minifb/src/*" }
-  files { "externals/minifb/src/windows/*.h" }
-  files { "externals/minifb/src/windows/*.c" }
+project "lib.imgui"
+  includedirs { "externals/include/imgui" }
+  files { "externals/include/imgui/*.h" }
+  files { "externals/include/imgui/*.cpp" }
